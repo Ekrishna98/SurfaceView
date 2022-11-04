@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 camera.takePicture(myShutterCallback,
                         myPictureCallback_RAW, myPictureCallback_JPG);
                 BtnTakePicture.setEnabled(false);
+                surfaceView.setBackground(getDrawable(R.drawable.border_lines_red));
             }});
 
 
         surfaceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                BtnTakePicture.setEnabled(true);
                 camera.autoFocus(myAutoFocusCallback);
             }
         });
@@ -148,28 +148,15 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
         @Override
         public void onAutoFocus(boolean arg0, Camera arg1) {
-            // TODO Auto-generated method stub
-//            setFocus(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            // TODO Auto-generated method stu
             Camera.Parameters mParameters = camera.getParameters();
             mParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 //        mParameters.setPictureSize(200,300);
             camera.setParameters(mParameters);
             BtnTakePicture.setEnabled(true);
+            surfaceView.setBackground(getDrawable(R.drawable.border_lines_green));
         }};
 
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Permission Granted");
-        } else {
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA);
-        }
-
-    }
 
 
     @Override
@@ -268,9 +255,22 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "Permission Granted");
+        } else {
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA);
+        }
+
+    }
+
     public void onResume(){
         super.onResume();
         BtnTakePicture.setEnabled(false);
+        surfaceView.setBackground(getDrawable(R.drawable.border_lines_red));
     }
 
 
